@@ -1,0 +1,24 @@
+1、查看linux下的xfs.ko内核，需要加载insmod xfs.ko
+2、安装xfs的rpm包，xfsprogs-2.7.11-1.i386.rpm
+3、查看xfs是否加载成功 lsmod | grep xfs 输出则加载成功。
+4、重启reboot服务器
+5、parted分区（sdb、sdc、sdd、sde）  
+   parted /dev/sdb  
+   mklabel  gpt
+   mkpart xfs 0 11999GB
+6、 print  查看 file和Name是否为xfs格式，quit退出，进行下一个sdc、sdd、sde
+7、reboot
+8、mkfs.xfs -f /dev/sdb1
+   mkfs.xfs -f /dev/sdc1
+   mkfs.xfs -f /dev/sdd1
+   mkfs.xfs -f /dev/sde1
+9、修改/etc/fstab，在末尾添加
+/dev/sdb1               /mpeg/mpeg1             xfs     defaults        0 0
+/dev/sdc1               /mpeg/mpeg2             xfs     defaults        0 0
+/dev/sdd1               /mpeg/mpeg3             xfs     defaults        0 0
+/dev/sde1               /mpeg/mpeg4             xfs     defaults        0 0
+10、重启后  mount /dev/sdb1  
+            mount /dev/sdc1 
+            mount /dev/sdd1 
+            mount /dev/sde1 
+11、查看df -h ，是否加载成功，并能显示mpeg1\mpeg2等分区
